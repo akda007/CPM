@@ -1,1 +1,1 @@
-pacman -S -q mingw-w64-x86_64-glib2 mingw-w64-x86_64-gcc
+pacman -S -q mingw-w64-x86_64-glib2 mingw-w64-x86_64-gcc mingw-w64-x86_64-make
