@@ -1,32 +1,30 @@
-CC = gcc	
-CFLAGS = -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include -I/mingw64/lib/glib-2.0/glib -I. -I./src/argsparser/argslib
-LIBS = -lglib-2.0 -lintl
+CC = gcc
 
-BIN = bin
-SRC = src
-OBJ = obj
+TARGET = cpm.exe
 
-OBJS = $(wildcard $(OBJ)/*.o)
+SRC_DIRS = ./src
 
-TARGET_NAME = $(BIN)/cpm.exe
+SRCS := $(shell find $(SRC_DIRS) -name *.c)
+OBJS := $(addsuffix .o,$(basename $(SRCS)))
+DEPS := $(OBJS:.o=.d)
 
-all: $(TARGET_NAME)
+INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-$(TARGET_NAME): $(OBJS) $(OBJ)/main.o $(OBJ)/argslib.o $(OBJ)/parser.o
-	@mkdir -p $(BIN)
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^
+CFLAGS := -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include \
+		  -I/mingw64/lib/glib-2.0/glib -I. -I./src/argsparser/argslib \
+		  -Wall $(INC_FLAGS) -MMD -MP
 
-$(OBJ)/main.o: $(SRC)/main.c
-	@mkdir -p $(OBJ)
-	$(CC) $(LIBS) $(CFLAGS) -c $< -o $@
+LIBS := -lglib-2.0 -lintl
 
-$(OBJ)/argslib.o: $(SRC)/argsparser/argslib/args.c $(SRC)/argsparser/argslib/args.h
-	$(CC) $(LIBS) $(CFLAGS) -c $< -o $@
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-$(OBJ)/parser.o: $(SRC)/argsparser/parser.c $(SRC)/argsparser/parser.h
-	$(CC) $(LIBS) $(CFLAGS) -c $< -o $@
+.PHONY: clean
 
 clean:
-	rm -rf $(BIN)/* $(OBJ)/*
+	rm -rf *.exe
+	find . -type f -name '*.o' -delete
+	find . -type f -name '*.d' -delete
 
-.PHONY: all clean
+-include $(DEPS)
