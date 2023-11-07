@@ -2,7 +2,7 @@
 
 CC = gcc	
 CFLAGS = -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include -I. -I./src/argsparser/argslib
-LIBS = -lglib-2.0 -lintl
+LIBS = -lglib-2.0 -lintl -dirent
 
 BIN = bin
 SRC = src
