@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "glib.h": "c"
+        "glib.h": "c",
+        "args.h": "c",
+        "string.h": "c",
+        "parser.h": "c"
     }
 }
