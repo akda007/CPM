@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/filetracker.exe",
-            "args": ["C:\\Users\\Aluno\\Documents\\Teste"],
+            "args": ["C:\\Users\\Aluno\\Documents\\Projects\\Teste"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
