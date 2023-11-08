@@ -1,5 +1,5 @@
-#define DIRECTORY_H
 #ifndef DIRECTORY_H
+#define DIRECTORY_H
 
 #include <Windows.h>
 #include <stdio.h>
@@ -7,7 +7,7 @@
 int getDirectory(char *cwd, int size) 
 {
  
-    DWORD result = GetCurrentDirectory(size, cwd);
+    DWORD result = GetCurrentDirectoryA(size, cwd);
 
     if (result == 0) 
     {
