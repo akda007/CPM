@@ -8,6 +8,7 @@
     #include <assert.h>
     #include <dirent.h>
     #include <sys/stat.h>
+    #include "linked_list/linked_list.h"
 
     void list_files(char* origin);
 

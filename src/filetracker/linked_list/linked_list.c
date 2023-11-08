@@ -18,14 +18,12 @@ void free_node(struct Node *node)
     free(node);
 }
 
-LinkedList * init_list(struct Node *node)
+LinkedList * init_list(void)
 {
-    assert(node != NULL);
-
     LinkedList *new_list = malloc(sizeof(LinkedList));
-    new_list->head = node;
-    new_list->tail = node;
-    new_list->length = 1;
+    new_list->head = NULL;
+    new_list->tail = NULL;
+    new_list->length = 0;
 
     return new_list;
 }

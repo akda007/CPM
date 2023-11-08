@@ -26,7 +26,7 @@
     struct Node * init_node(void *data, callback_print cprint, callback_compare ccompare);
     void free_node(struct Node *node);
 
-    LinkedList * init_list(struct Node *node);
+    LinkedList * init_list(void);
     void append_list(LinkedList *list, struct Node *node);
     void * fetch_index_list(LinkedList *list, unsigned index);
     void free_list(LinkedList *list);
