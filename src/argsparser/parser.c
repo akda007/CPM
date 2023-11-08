@@ -11,8 +11,6 @@ int action(int argc, char** argv) {
         exit(1);
     }
 
-    printf("teste");
-
     // Register the program's helptext and version number.
     ap_set_helptext(parser, "Usage: Work in progress...");
     ap_set_version(parser, "1.0");
