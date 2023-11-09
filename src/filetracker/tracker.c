@@ -10,8 +10,6 @@ void print_dirent(void *dir)
 bool is_directory(struct dirent* dir)
 {
     DIR* d = opendir(dir->d_name);
-    struct dirent* test;
-
     return ((dir = readdir(d)) != NULL);
 }
 
@@ -30,13 +28,16 @@ void find_members(char* origin)
     {
         while ((dir = readdir(d)) != NULL)
         {
+            struct dirent * copy = malloc(sizeof(struct dirent));
+            *copy = *dir;
+
             if (check_extension(dir->d_name, ".h"))
             {
-                append_list(headers, init_node(dir, print_dirent, NULL));
+                append_list(headers, init_node(copy, print_dirent, NULL));
             }
             else if (check_extension(dir->d_name, ".c"))
             {
-                append_list(impls, init_node(dir, print_dirent, NULL));
+                append_list(impls, init_node(copy, print_dirent, NULL));
             }
         }
         closedir(d);
@@ -49,14 +50,14 @@ void make_members(char* origin)
     FILE *fp = fopen(members_path, "w+");
     struct dirent* dir;
 
-    fprintf(fp, "\n[header]\n\n");
+    fprintf(fp, "[header]\n");
     for (int i = 0; i < headers->length; i++)
     {
         dir = (struct dirent*)fetch_index_list(headers, i);
         fprintf(fp, "%s\n", dir->d_name);
     }
 
-    fprintf(fp, "\n[impl]\n\n");
+    fprintf(fp, "\n[impl]\n");
     for (int i = 0; i < impls->length; i++)
     {
         dir = (struct dirent*)fetch_index_list(impls, i);
@@ -70,9 +71,7 @@ int call_tracker(char* origin_path)
     impls = init_list();
 
     find_members(origin_path);
-    // make_members(origin_path);
-    print_list(headers);
-    print_list(impls);
+    make_members(origin_path);
 
     free_list(headers);
     free_list(impls);

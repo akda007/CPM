@@ -15,6 +15,7 @@ struct Node * init_node(void *data, callback_print cprint, callback_compare ccom
 
 void free_node(struct Node *node)
 {
+    free(node->data);
     free(node);
 }
 
@@ -49,7 +50,7 @@ void * fetch_index_list(LinkedList *list, unsigned index)
     assert(index < list->length);
 
     struct Node *current_node = list->tail;
-    for (int i = 1; i < index; i++)
+    for (int i = 0; i < index; i++)
     {
         current_node = current_node->next;
     }
@@ -65,7 +66,7 @@ void print_list(LinkedList *list)
     struct Node *current_node = list->tail;
     current_node->cprint(current_node->data);
 
-    for (int i = 1; i < list->length; i++)
+    for (int i = 0; i < list->length; i++)
     {
         current_node = current_node->next;
         current_node->cprint(current_node->data);
