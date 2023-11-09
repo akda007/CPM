@@ -38,17 +38,15 @@ void find_members(char* origin)
     }
 }
 
-// int main(int argc, char* argv[])
-// {
-//     assert(argc > 1);
+int call_tracker(char* origin_path)
+{
+    headers = init_list();
+    impls = init_list();
 
-//     headers = init_list();
-//     impls = init_list();
+    find_members(origin_path);
 
-//     find_members(argv[1]);
+    printf("Número de headers: %d\n", headers->length);
+    printf("Número de implementações: %d\n", impls->length);
 
-//     printf("Número de headers: %d\n", headers->length);
-//     printf("Número de implementações: %d\n", impls->length);
-
-//     return 0;
-// }
+    return 0;
+}

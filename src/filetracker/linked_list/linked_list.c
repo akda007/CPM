@@ -33,7 +33,9 @@ void append_list(LinkedList *list, struct Node *node)
     assert(list != NULL);
     assert(node != NULL);
 
-    list->head->next = node;
+    if (list->head != NULL)
+        list->head->next = node;
+        
     list->head = node;
     list->length++;
 }

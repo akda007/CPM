@@ -11,5 +11,6 @@
     #include "linked_list/linked_list.h"
 
     void list_files(char* origin);
+    int call_tracker(char* origin_path);
 
 #endif
