@@ -3,6 +3,8 @@
 
 #include <Windows.h>
 #include <stdio.h>
+#include <sys/stat.h>
+#include <string.h>
 
 int getDirectory(char *cwd, int size) 
 {
@@ -27,11 +29,23 @@ int getDirectory(char *cwd, int size)
     
 }
 
-int gitInit(char *cwd)
+int newDirectory(const char *cwd, const char *newname)
 {
-    char command[100];
+    char fullPath[256];
 
-    snprintf(command, sizeof(command), "git init %s", cwd);
+    snprintf(fullPath, sizeof(fullPath), "%s\\%s", cwd, newname);
+
+    if(mkdir(fullPath) == 0)
+    {
+        printf("Directory created sucessfully: %s\n", fullPath);
+    }
+}
+
+int gitInit(const char *cwd)
+{
+    char command[256];
+
+    snprintf(command, sizeof(command), "cd /d \"%s\" && git init", cwd);
 
     int result = system(command);
 
@@ -45,6 +59,6 @@ int gitInit(char *cwd)
         printf("Failed to create git repository : %s\n", cwd);
     }
 
-    return 0;
+    return result;
 }
 #endif

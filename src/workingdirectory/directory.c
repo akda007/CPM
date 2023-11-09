@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <stdio.h>
+#include <sys/stat.h>
 #include "directory.h"
 
 int main() 
@@ -10,6 +11,10 @@ int main()
     {
         return 1;
     }
+
+    newDirectory(cwd, "src"); 
+    newDirectory(cwd, "includes"); 
+    newDirectory(cwd, "bin");
     
     gitInit(cwd);
 
