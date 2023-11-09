@@ -19,7 +19,7 @@ bool check_extension(char* filename, char* extension)
     return (ext != NULL) ? (strcmp(ext, extension) == 0) : false;
 }
 
-void find_members(char* origin)
+void find_members(char* origin, char* location)
 {
     DIR* d = opendir(origin);
     struct dirent* dir;
@@ -28,17 +28,36 @@ void find_members(char* origin)
     {
         while ((dir = readdir(d)) != NULL)
         {
-            struct dirent * copy = malloc(sizeof(struct dirent));
-            *copy = *dir;
+            if (is_directory(dir) && (strcmp(dir->d_name, ".") != 0) && (strcmp(dir->d_name, "..") != 0))
+            {
+                char* directory_path = strcat(origin, "\\");
+                directory_path = strcat(directory_path, dir->d_name); // origin\d_name
 
-            if (check_extension(dir->d_name, ".h"))
-            {
-                append_list(headers, init_node(copy, print_dirent, NULL));
+                find_members(directory_path, dir->d_name);
             }
-            else if (check_extension(dir->d_name, ".c"))
+            else
             {
-                append_list(impls, init_node(copy, print_dirent, NULL));
+                struct dirent * copy = malloc(sizeof(struct dirent));
+                *copy = *dir;
+
+                if (strcmp(location, "") != 0)
+                {
+                    char* relative_path = strcat("\\", dir->d_name);
+                    relative_path = strcat(location, relative_path);
+
+                    strcpy(copy->d_name, relative_path);
+                }
+
+                if (check_extension(dir->d_name, ".h"))
+                {
+                    append_list(headers, init_node(copy, print_dirent, NULL));
+                }
+                else if (check_extension(dir->d_name, ".c"))
+                {
+                    append_list(impls, init_node(copy, print_dirent, NULL));
+                }
             }
+
         }
         closedir(d);
     }
@@ -70,7 +89,7 @@ int call_tracker(char* origin_path)
     headers = init_list();
     impls = init_list();
 
-    find_members(origin_path);
+    find_members(origin_path, "");
     make_members(origin_path);
 
     free_list(headers);
