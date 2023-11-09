@@ -29,6 +29,7 @@
     LinkedList * init_list(void);
     void append_list(LinkedList *list, struct Node *node);
     void * fetch_index_list(LinkedList *list, unsigned index);
+    void print_list(LinkedList *list);
     void free_list(LinkedList *list);
 
 #endif

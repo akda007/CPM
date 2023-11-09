@@ -35,7 +35,10 @@ void append_list(LinkedList *list, struct Node *node)
 
     if (list->head != NULL)
         list->head->next = node;
-        
+    
+    if (list->tail == NULL)
+        list->tail = node;
+
     list->head = node;
     list->length++;
 }
@@ -52,6 +55,21 @@ void * fetch_index_list(LinkedList *list, unsigned index)
     }
 
     return current_node->data;
+}
+
+void print_list(LinkedList *list)
+{
+    assert(list != NULL);
+    assert(list->length != 0);
+
+    struct Node *current_node = list->tail;
+    current_node->cprint(current_node->data);
+
+    for (int i = 1; i < list->length; i++)
+    {
+        current_node = current_node->next;
+        current_node->cprint(current_node->data);
+    }
 }
 
 void free_list(LinkedList *list)
