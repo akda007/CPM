@@ -6,6 +6,8 @@
 #include <sys/stat.h>
 #include <string.h>
 
+//Get the working directory and store it in a variable.
+
 int getDirectory(char *cwd, int size) 
 {
  
@@ -29,6 +31,8 @@ int getDirectory(char *cwd, int size)
     
 }
 
+//Create new folders 
+
 int newDirectory(const char *cwd, const char *newname)
 {
     char fullPath[256];
@@ -40,6 +44,8 @@ int newDirectory(const char *cwd, const char *newname)
         printf("Directory created sucessfully: %s\n", fullPath);
     }
 }
+
+//Start a git repository
 
 int gitInit(const char *cwd)
 {
