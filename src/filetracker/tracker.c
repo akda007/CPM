@@ -7,10 +7,18 @@ void print_dirent(void *dir)
     printf("Filename: %s\n", ((struct dirent *)dir)->d_name);
 }
 
-bool is_directory(struct dirent* dir)
-{
-    DIR* d = opendir(dir->d_name);
-    return ((dir = readdir(d)) != NULL);
+// bool is_directory(struct dirent* dir)
+// {
+//     DIR* d = opendir(dir->d_name);
+//     return ((dir = readdir(d)) != NULL);
+// }
+
+int is_directory(const char *path) {
+    struct stat statbuf;
+    if (stat(path, &statbuf) != 0)
+        return 0;
+
+    return S_ISDIR(statbuf.st_mode);
 }
 
 bool check_extension(char* filename, char* extension)
@@ -28,12 +36,14 @@ void find_members(char* origin, char* location)
     {
         while ((dir = readdir(d)) != NULL)
         {
-            if (is_directory(dir) && (strcmp(dir->d_name, ".") != 0) && (strcmp(dir->d_name, "..") != 0))
-            {
-                char* directory_path = strcat(origin, "\\");
-                directory_path = strcat(directory_path, dir->d_name); // origin\d_name
+            char absolute_path[256] = "";
+            strcpy(absolute_path, origin);
+            strcat(absolute_path, "\\");
+            strcat(absolute_path, dir->d_name);
 
-                find_members(directory_path, dir->d_name);
+            if (is_directory(absolute_path) == 1 && strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
+            {
+                find_members(absolute_path, dir->d_name);
             }
             else
             {
@@ -42,8 +52,10 @@ void find_members(char* origin, char* location)
 
                 if (strcmp(location, "") != 0)
                 {
-                    char* relative_path = strcat("\\", dir->d_name);
-                    relative_path = strcat(location, relative_path);
+                    char relative_path[256] = "";
+                    strcpy(relative_path, location);
+                    strcat(relative_path, "\\");
+                    strcat(relative_path, dir->d_name);
 
                     strcpy(copy->d_name, relative_path);
                 }
