@@ -10,7 +10,11 @@
     #include <sys/stat.h>
     #include "linked_list/linked_list.h"
 
-    void list_files(char* origin);
+    void print_dirent(void *dir);
+    int is_directory(const char *path);
+    bool check_extension(char* filename, char* extension);
+    void find_members(char* origin, char* location);
+    void make_members(char* origin);
     int call_tracker(char* origin_path);
 
 #endif
