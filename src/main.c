@@ -24,6 +24,7 @@ int init() {
     return ret;
 };
 
+
 int build() {
     char buffer[1024];
     getDirectory(buffer, sizeof(buffer));
@@ -31,11 +32,11 @@ int build() {
     if(containsFile(buffer, "Makefile")) {
 
     } else {
-        //create makefile if not exists
+        createMakefile(buffer);
     }
 
     //Get the make program from the config
-    system("mingw32-make");
+    //system("mingw32-make");
 
     return 0;
 };

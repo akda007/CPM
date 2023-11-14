@@ -34,5 +34,6 @@
 
 
 bool containsFile(char * dir, const char * file);
+bool createMakefile(char * dir) ;
 
 #endif
