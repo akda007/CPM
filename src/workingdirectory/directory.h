@@ -1,70 +1,34 @@
 #ifndef DIRECTORY_H
 #define DIRECTORY_H
 
-#include <Windows.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <string.h>
+/**
+ * @file directory.h
+ * @brief Declarations for functions related to directory operations.
+ */
 
-//Get the working directory and store it in a variable.
+#include <stdbool.h>
 
-int getDirectory(char *cwd, int size) 
-{
- 
-    DWORD result = GetCurrentDirectoryA(size, cwd);
+/**
+ * @brief Gets the current working directory.
+ * @param cwd Buffer to store the current working directory.
+ * @param size Size of the buffer.
+ * @return true if the current working directory is successfully obtained, false otherwise.
+ */
+bool getDirectory(char* cwd, int size);
 
-    if (result == 0) 
-    {
-        DWORD error = GetLastError();
+/**
+ * @brief Creates a new directory.
+ * @param cwd The current working directory.
+ * @param newname The name of the new directory to be created.
+ * @return true if the directory is created successfully, false otherwise.
+ */
+bool newdirectory(const char* cwd, const char* newname);
 
-        printf("GetCurrentDirectory failed with error %lu\n", error);
-        
-        return 1;
-    } 
-    
-    else 
-    {
-        printf("%s\n", cwd);
-    }
+/**
+ * @brief Initializes a new Git repository in the current working directory.
+ * @param cwd The current working directory.
+ * @return true if the Git repository is successfully created, false otherwise.
+ */
+bool gitInit(const char* cwd);
 
-    return 0;
-    
-}
-
-//Create new folders 
-
-int newDirectory(const char *cwd, const char *newname)
-{
-    char fullPath[256];
-
-    snprintf(fullPath, sizeof(fullPath), "%s\\%s", cwd, newname);
-
-    if(mkdir(fullPath) == 0)
-    {
-        printf("Directory created sucessfully: %s\n", fullPath);
-    }
-}
-
-//Start a git repository
-
-int gitInit(const char *cwd)
-{
-    char command[256];
-
-    snprintf(command, sizeof(command), "cd /d \"%s\" && git init", cwd);
-
-    int result = system(command);
-
-    if (result == 0) 
-    {
-        printf("Git Repository successfully created: %s\n", cwd);
-    } 
-    
-    else 
-    {
-        printf("Failed to create git repository : %s\n", cwd);
-    }
-
-    return result;
-}
-#endif
+#endif /* DIRECTORY_H */

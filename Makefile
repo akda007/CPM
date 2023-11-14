@@ -11,7 +11,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CFLAGS := -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include \
+CFLAGS := -g3 -I/mingw64/include/glib-2.0 -I/mingw64/lib/glib-2.0/include \
 		  -I/mingw64/lib/glib-2.0/glib -I. -I./src/argsparser/argslib \
 		  -Wall $(INC_FLAGS) -MMD -MP
 
@@ -23,7 +23,7 @@ $(TARGET): $(OBJS)
 .PHONY: clean
 
 clean:
-	rm -rf *.exe
+	
 	find . -type f -name '*.o' -delete
 	find . -type f -name '*.d' -delete
 

@@ -8,10 +8,10 @@
             "name": "(gdb) Iniciar",
             "type": "cppdbg",
             "request": "launch",
-            "program": "insira o nome do programa, por exemplo ${workspaceFolder}/a.exe",
-            "args": [],
+            "program": "${workspaceFolder}\\cpm.exe",
+            "args": ["C:\\Users\\Aluno\\Documents\\Projects\\Teste"],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -28,7 +28,6 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build"
         }
 
     ]
