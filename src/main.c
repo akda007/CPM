@@ -4,18 +4,20 @@
 #include "argsparser/parser.h"
 #include "filetracker/tracker.h"
 #include "workingdirectory/directory.h"
-#include "dirtools/tools.h"
+#include "tools/tools.h"
 
 int init() {
     char buffer[1024];
     getDirectory(buffer, sizeof(buffer));
 
     if(containsFile(buffer, "MEMBERS")) {
-        printf("The directory was already initialized!\n");
+        printf("The project was already initialized!\n");
         return -1;
     }
 
     int ret = call_tracker(buffer);
+
+    //Todo save config inside the repo
 
     gitInit(buffer);
 
@@ -23,7 +25,17 @@ int init() {
 };
 
 int build() {
-    printf("Build called");
+    char buffer[1024];
+    getDirectory(buffer, sizeof(buffer));
+
+    if(containsFile(buffer, "Makefile")) {
+
+    } else {
+        //create makefile if not exists
+    }
+
+    //Get the make program from the config
+    system("mingw32-make");
 
     return 0;
 };

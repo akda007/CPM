@@ -1,6 +1,6 @@
-CC = gcc
-
 TARGET = cpm.exe
+
+CC = gcc
 
 SRC_DIRS = ./src
 
