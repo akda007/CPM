@@ -9,17 +9,12 @@
 #include "linked_list/linked_list.h"
 
 LinkedList *headers, *impls;
+char* target;
 
 void print_dirent(void *dir)
 {
     printf("Filename: %s\n", ((struct dirent *)dir)->d_name);
 }
-
-// bool is_directory(struct dirent* dir)
-// {
-//     DIR* d = opendir(dir->d_name);
-//     return ((dir = readdir(d)) != NULL);
-// }
 
 int is_directory(const char *path) {
     struct stat statbuf;
@@ -89,6 +84,9 @@ void make_members(char* origin)
     FILE *fp = fopen(members_path, "w+");
     struct dirent* dir;
 
+    fprintf(fp, "[config]\n");
+    fprintf(fp, "target=%s", target);
+
     fprintf(fp, "[header]\n");
     for (int i = 0; i < headers->length; i++)
     {
@@ -104,10 +102,16 @@ void make_members(char* origin)
     }
 }
 
-int call_tracker(char* origin_path)
+char* retrieve_config(char* section)
+{
+    
+}
+
+int call_tracker(char* origin_path, char* target_name)
 {
     headers = init_list();
     impls = init_list();
+    strcpy(target, target_name);
 
     find_members(origin_path, "");
     make_members(origin_path);
