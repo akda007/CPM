@@ -9,9 +9,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\cpm.exe",
-            "args": ["C:\\Users\\Aluno\\Documents\\Projects\\Teste"],
+            "args": ["build"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}\\test",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -27,7 +27,7 @@
                     "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
                 }
-            ],
+            ]
         }
 
     ]

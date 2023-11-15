@@ -1,12 +1,10 @@
 {
     "files.associations": {
         "glib.h": "c",
-<<<<<<< HEAD
         "args.h": "c",
         "string.h": "c",
-        "parser.h": "c"
-=======
-        "stat.h": "c"
->>>>>>> origin/filetracker
-    }
+        "parser.h": "c",
+        "p.h": "c",
+        "tracker.h": "c"
+}
 }

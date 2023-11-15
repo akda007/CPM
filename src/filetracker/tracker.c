@@ -9,7 +9,7 @@
 #include "linked_list/linked_list.h"
 
 LinkedList *headers, *impls;
-char* target;
+char *target, *make_path, *extension;
 
 void print_dirent(void *dir)
 {
@@ -85,9 +85,11 @@ void make_members(char* origin)
     struct dirent* dir;
 
     fprintf(fp, "[config]\n");
-    fprintf(fp, "target=%s", target);
+    fprintf(fp, "target=%s\n", target);
+    fprintf(fp, "make=%s\n", make_path);
+    fprintf(fp, "extension=.%s\n", extension);
 
-    fprintf(fp, "[header]\n");
+    fprintf(fp, "\n[header]\n");
     for (int i = 0; i < headers->length; i++)
     {
         dir = (struct dirent*)fetch_index_list(headers, i);
@@ -102,16 +104,78 @@ void make_members(char* origin)
     }
 }
 
-char* retrieve_config(char* section)
-{
-    
+//Remove some special chars and spaces from string
+void sanitize_string(char *buffer, const char * custom_chars) {
+    char chars[300];
+    strcpy(chars, custom_chars);
+    strcat(chars, "\n\r ");
+
+    for (char * i = buffer; *i != '\0'; i++) {
+        if (strchr(chars, *i)){
+            for (char * c = i; *c != '\0'; c++) {
+                *c = *(c+1);
+            }
+            i--;
+        }
+    }
 }
 
-int call_tracker(char* origin_path, char* target_name)
+char* retrieve_config(const char* section, const char *setting)
+{
+    FILE *members_file = fopen(SAVE_FILE, "r");
+
+    char buff[200], name[100], value[100];
+
+    //Find section
+    bool found = false;
+    while(fgets(buff, sizeof(buff), members_file) != NULL) {
+        sanitize_string(buff, "[]");
+        if (strcmp(buff, section) == 0) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Unable to find the %s section in the members file.\n", section);
+        return NULL;
+    }
+
+    found = false;
+
+    while(fgets(buff, sizeof(buff), members_file) != NULL) {
+        sanitize_string(buff, "");
+
+        for (char *i = buff; *i != '\0'; i++) {
+            if (*i == '=')
+                *i = '\n';
+        }
+
+        sscanf(buff, "%s\n%s", name, value);        
+
+        if (strcmp(name, setting) == 0) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Unable to find the %s setting in the members file.\n", setting);
+        return NULL;
+    }
+
+    //Needs to be dealocated later
+    return strdup(value);
+}
+
+int call_tracker(char* origin_path, char* target_name, char* makepath_name, char *ext_extension)
 {
     headers = init_list();
     impls = init_list();
-    strcpy(target, target_name);
+
+    target = target_name;
+    make_path = makepath_name;
+    extension = ext_extension;
 
     find_members(origin_path, "");
     make_members(origin_path);

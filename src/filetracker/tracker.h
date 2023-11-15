@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#define SAVE_FILE "MEMBERS"
+
 /**
  * @brief Prints the name of a directory entry.
  * @param dir The directory entry.
@@ -42,6 +44,8 @@ void make_members(char* origin);
  * @param origin_path The path of the directory to start tracking from.
  * @return 0 on success.
  */
-int call_tracker(char* origin_path);
+int call_tracker(char* origin_path, char* target_name, char* makepath_name, char *ext_extension);
+
+char* retrieve_config(const char* section, const char *setting);
 
 #endif

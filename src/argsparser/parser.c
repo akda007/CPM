@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
-#include "args.h"
 
 //Docs -> http://www.dmulholl.com/docs/args/master/
 
@@ -10,22 +9,20 @@ Config config;
 
 int callbackFunctions(char *cmd_name, ArgParser *cmd_parser) {
      
-
-     
     if (strcmp(cmd_name, "build") == 0) {
-        config.build();
+        config.build(cmd_parser);
         
         return 0;
     }
 
     if (strcmp(cmd_name, "init") == 0) {
-        config.init();
+        config.init(cmd_parser);
         
         return 0;
     }
 
     if (strcmp(cmd_name, "run") == 0) {
-        config.run();
+        config.run(cmd_parser);
         
         return 0;
     }
@@ -45,7 +42,8 @@ void parseArgs(int argc, char ** argv) {
         exit(2);
     }
 
-    ap_set_helptext(parser, "Usage: cpm [options]");
+    ap_set_helptext(parser, MAIN_HELPTEXT);
+
     ap_set_version(parser, "1.0");
 
     ArgParser *cmd_init = ap_new_cmd(parser, "init");
@@ -53,8 +51,14 @@ void parseArgs(int argc, char ** argv) {
     ArgParser *cmd_run = ap_new_cmd(parser, "run");
 
     ap_set_helptext(cmd_init, INIT_HELPTEXT);
-    ap_set_helptext(cmd_init, BUILD_HELPTEXT);
-    ap_set_helptext(cmd_init, RUN_HELPTEXT);
+    ap_set_helptext(cmd_build, BUILD_HELPTEXT);
+    ap_set_helptext(cmd_run, RUN_HELPTEXT);
+
+    ap_add_str_opt(cmd_init, "project-name p", "project");
+    ap_add_str_opt(cmd_init, "make-program m", "make");
+    ap_add_str_opt(cmd_init, "extension e", "exe");
+
+    ap_add_flag(cmd_init, "no-git");
 
     ap_set_cmd_callback(cmd_init, callbackFunctions);
     ap_set_cmd_callback(cmd_build, callbackFunctions);

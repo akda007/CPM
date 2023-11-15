@@ -2,6 +2,9 @@
 
 #include <dirent.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "../filetracker/tracker.h"
 
 bool createMakefile(char * dir) {
     char buff[1024];
@@ -18,10 +21,19 @@ bool createMakefile(char * dir) {
     }
 
     //print TARGET = {config.target}
-    fprintf(makefile, "TARGET = teste.exe\n");
+    char * target = retrieve_config("config", "target");
+
+    target = realloc(target, strlen(target) + 5);
+
+    //Maybe get the extension from the config
+    strcat(target, ".exe");
+
+    fprintf(makefile, "TARGET = %s\n", target);
 
     fprintf(makefile, MAKEFILE_TEXT);
 
+    free(target);
+    fclose(makefile);
     return true;
 }
 
