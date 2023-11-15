@@ -69,9 +69,8 @@ int run(ArgParser *parser) {
     char *target = retrieve_config("config", "target");
     char *extension = retrieve_config("config", "extension");
 
-    target = realloc(target, strlen(target) + strlen(extension) + 2);
+    target = realloc(target, strlen(target) + strlen(extension) + 1);
 
-    strcat(target, ".");
     strcat(target, extension);
 
     free(extension);

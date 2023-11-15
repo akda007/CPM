@@ -8,8 +8,6 @@
 #include <sys/stat.h>
 #include "linked_list/linked_list.h"
 
-void sanitize_string(char *buffer, const char * custom_chars);
-
 LinkedList *headers, *impls;
 char *target, *make_path, *extension;
 
@@ -89,8 +87,6 @@ void make_members(char* origin)
     fprintf(fp, "[config]\n");
     fprintf(fp, "target=%s\n", target);
     fprintf(fp, "make=%s\n", make_path);
-
-    sanitize_string(extension, ".");
     fprintf(fp, "extension=.%s\n", extension);
 
     fprintf(fp, "\n[header]\n");
