@@ -1,8 +1,11 @@
+
 CC = gcc
 
 TARGET = cpm.exe
 
 SRC_DIRS = ./src
+
+FIND = C:\msys64\usr\bin\find.exe
 
 SRCS := $(shell find $(SRC_DIRS) -name *.c)
 OBJS := $(addsuffix .o,$(basename $(SRCS)))
@@ -20,7 +23,10 @@ LIBS := -lglib-2.0 -lintl
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-.PHONY: clean
+.PHONY: clean shell
+
+shell:
+	@echo $(SHELL)
 
 clean:
 	rm -rf *.exe
